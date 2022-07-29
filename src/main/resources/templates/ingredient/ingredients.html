@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <th:block th:replace="fragments/fragments :: risorse-head"></th:block>
+    <title>Ingredients</title>
+</head>
+
+<body>
+    <nav th:replace ="fragments/fragments :: navbar(ingredient)" ></nav>
+    <div class="container">
+    <div class="col-10">
+    <h5>Aggiungi un ingrediente</h5>
+  
+    <form
+    id="ingredient-form"
+    th:object="${newIngredient}"
+    th:action="@{/ingredient/save}"
+    method = "post">
+
+	<div class="input-group mb-3 has-validation">
+		<input th:field="*{name}" type="text" class="form-control"
+			placeholder="Add a ingredient" aria-label="Add a ingredient"
+			aria-describedby="ingredient-button" th:errorClass="is-invalid">
+		<button class="btn btn-primary" type="submit" id="ingredient-button">Save</button>
+		<div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
+			<ul>
+				<li th:each="err : ${#fields.errors('name')}" th:text="${err}">
+			</ul>
+		</div>		
+	</div>
+    </form>
+    
+    </div>
+    <div class="col-10">
+  
+ <hr> 
+  
+        <h5>La lista dei nostri ingredienti</h5>
+        
+    	<div th:if="${listOfIngredients.size() > 0}">
+		    <ul class="list-group" th:each ="loi : ${listOfIngredients}">
+		    	<li class="list-group-item" th:text="${loi.name}"></li>
+			</ul>
+		</div>
+		
+		<div th:unless="${listOfIngredients.size() > 0}">
+			<h3>Non sono stati ancora aggiunti Ingredienti</h3>
+		</div>
+	 </div>
+    </div>
+	<div th:replace="fragments/fragments :: risorse-js-bootstrap"></div>
+</body>
+</html>
